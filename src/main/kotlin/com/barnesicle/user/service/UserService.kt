@@ -1,28 +1,23 @@
 package com.barnesicle.user.service
 
+import com.barnesicle.user.dao.UserDao
 import com.barnesicle.user.entity.User
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class UserService {
-
-    private var allUsers: List<User> = listOf(
-            User("Luke", "Barnes", "lbarnes@gmail.com"),
-            User("Alison", "Barnes", "abarnes@gmail.com"),
-            User("Hugh", "Jackman", "hjackman@gmail.com"),
-            User("Kylie", "Minogue", "kminogue@gmail.com"),
-            User("Nicole", "Kidman", "nkidman@gmail.com"),
-            User("Heath", "Ledger", "hledger@gmail.com"),
-            User("Eric", "Banner", "ebanner@gmail.com"),
-            User("Keith", "Urban", "kurban@gmail.com"),
-            User("Chris", "Hemsworth", "chemsworth@gmail.com"))
+class UserService @Autowired constructor(val userDao: UserDao) {
 
     fun getUsers() : List<User> {
-        return allUsers
+        return userDao.findUsers()
     }
 
     fun getUserByEmail(email: String) : User? {
-        return allUsers.find { user -> user.email == email}
+        return userDao.findUserByUsername(email);
+    }
+
+    fun insert(user: User) {
+        userDao.insert(user)
     }
 
 }
