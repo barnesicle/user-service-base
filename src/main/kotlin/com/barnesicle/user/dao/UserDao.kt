@@ -1,15 +1,15 @@
 package com.barnesicle.user.dao
 
-import com.barnesicle.user.cassandra.CassandraConfiguration
+import com.barnesicle.user.config.CassandraConfiguration
 import com.barnesicle.user.entity.User
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import java.util.*
 
-@Service
+// NOTE: Does not use
+//@Service
 class UserDao @Autowired constructor(private val session: Session, cassandraConfiguration: CassandraConfiguration) {
 
     private var selectAllUsers: PreparedStatement? = null
@@ -25,15 +25,16 @@ class UserDao @Autowired constructor(private val session: Session, cassandraConf
 
         insertUser = session.prepare("INSERT INTO users_by_username (username, email, password, verified, created_timestamp, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?, ?);")
         insertUser?.consistencyLevel = cassandraConfiguration.writeConsistencyLevel
-    }
 
+    }
     private fun fillUser(row: Row) : User {
         val firstName = row.getString("first_name")
         val lastName = row.getString("last_name")
         val email = row.getString("email")
         val username = row.getString("username")
         val created = row.getTimestamp("created_timestamp")
-        return User(username, firstName, lastName, email, created)
+        val password = row.getString("password")
+        return User(username, firstName, lastName, email, created, password)
     }
 
     fun findUsers(): List<User> {
@@ -59,7 +60,7 @@ class UserDao @Autowired constructor(private val session: Session, cassandraConf
             return fillUser(row)
         }
 
-        return User("","","","");
+        return User("","","","", "");
     }
 
     fun insert(user: User) {
