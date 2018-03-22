@@ -1,35 +1,39 @@
 package com.barnesicle.user.service
 
-import com.barnesicle.user.dao.UserReactiveDao
-import com.barnesicle.user.entity.User
-import org.mindrot.jbcrypt.BCrypt
+import com.barnesicle.user.dao.UserReactiveCassandraDao
+import com.barnesicle.user.entity.Account
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
-class UserService @Autowired constructor(val userDao: UserReactiveDao) {
+class UserService @Autowired constructor(val userDao: UserReactiveCassandraDao,
+                                         val passwordEncoder: PasswordEncoder
+) {
 
-    var SALT : String = "salt123"; // TODO Get from properties
 
-    fun getUsers() : Flux<User>? {
+
+    fun findUsers() : Flux<Account>? {
         return userDao.findUsers()
     }
 
-    fun getUserByEmail(email: String) : Mono<User>? {
-        return userDao.findUserByUsername(email)
+    fun findUserByUsername(username: String) : Mono<Account>? {
+        return userDao.findById(username)
     }
 
-    fun insert(user: User) {
-        val userWithEncryptedPassword = user.copy(user.username,
-                user.firstName,
-                user.lastName,
-                user.email,
-                //user.created,
-                BCrypt.hashpw(user.password, BCrypt.gensalt()))
+    fun insert(account: Account): Mono<Account>? {
+        val userWithEncryptedPassword = account.copy(account.username,
+                account.firstName,
+                account.lastName,
+                account.email,
+                passwordEncoder.encode(account.password),
+                account.roles,
+                account.created
+                )
 
-        userDao.insert(userWithEncryptedPassword)
+        return userDao.insert(userWithEncryptedPassword)
     }
 
 }
