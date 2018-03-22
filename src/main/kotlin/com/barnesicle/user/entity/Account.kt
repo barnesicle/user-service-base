@@ -15,9 +15,13 @@ data class Account constructor(@PrimaryKey val username: String,
                                @Column("created_timestamp") val created: Date,
                                @Column("verified") val verified: Boolean = false,
                                @Column("enabled") val enabled: Boolean = true,
-                               @Column("failed_login_attempts") val failedLoginAttempts: Int = 0){
+                               @Column("failed_login_attempts") val failedLoginAttempts: Int = 0,
+                               @Column("password_reset_code") val passwordResetCode: String,
+                               @Column("verify_account_code") val verifyAccountCode: String){
 
     constructor(firstName: String, lastName: String, email: String, password: String,
-                roles: Set<String>, created: Date, verified: Boolean = true, enabled: Boolean = true, failedLoginAttempts: Int = 0) :
-            this(email, firstName, lastName, email, password, roles, created, verified, enabled, failedLoginAttempts)
+                roles: Set<String>, created: Date, verified: Boolean = true, enabled: Boolean = true, failedLoginAttempts: Int = 0,
+                passwordResetCode: String, verifyAccountCode: String) :
+            this(email, firstName, lastName, email, password, roles, created, verified, enabled,
+                    failedLoginAttempts, passwordResetCode, verifyAccountCode)
 }
