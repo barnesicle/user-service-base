@@ -1,0 +1,94 @@
+{
+	"info": {
+		"name": "ExampleOAuth2",
+		"_postman_id": "9700db57-e43a-4f39-bff9-14efcdf460ca",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST Auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "api-client",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/oauth/token?password=password123&username=lbarnes&grant_type=password&scope=read write",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "password123",
+							"equals": true
+						},
+						{
+							"key": "username",
+							"value": "lbarnes",
+							"equals": true
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"equals": true
+						},
+						{
+							"key": "scope",
+							"value": "read write",
+							"equals": true
+						},
+						{
+							"key": "client_id",
+							"value": "api-client",
+							"equals": true,
+							"disabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "123456",
+							"equals": true,
+							"disabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
