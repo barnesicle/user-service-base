@@ -1,7 +1,7 @@
 package com.barnesicle.user.config;
 
 import com.barnesicle.user.entity.Account;
-import com.barnesicle.user.service.UserService;
+import com.barnesicle.user.service.AccountService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService accountRepository;
+    private AccountService accountRepository;
 
     @Autowired
     private UserDetailsService userDetailsService;

@@ -1,7 +1,7 @@
 package com.barnesicle.user
 
 import com.barnesicle.user.entity.Account
-import com.barnesicle.user.service.UserService
+import com.barnesicle.user.service.AccountService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -28,7 +28,7 @@ class UserApplication {
             Account("Chris", "Hemsworth", "chemsworth@gmail.com", "password123", setOf("USER"), created))
 
     @Bean
-    fun init(repository: UserService) = CommandLineRunner {
+    fun init(repository: AccountService) = CommandLineRunner {
         // TODO Only do if db is empty
         for (user in allAccounts) {
             repository.insert(user)?.block()

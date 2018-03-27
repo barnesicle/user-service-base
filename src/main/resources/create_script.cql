@@ -1,11 +1,11 @@
-/*CREATE KEYSPACE users
+CREATE KEYSPACE account
 WITH durable_writes = true
 AND replication = {
 	'class' : 'SimpleStrategy',
 	'replication_factor' : 1
-};*/
+};
 
-CREATE TABLE users_by_username (
+CREATE TABLE users.account_by_username (
 	username text,
 	email text,
 	password text,

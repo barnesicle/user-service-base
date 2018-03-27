@@ -1,6 +1,6 @@
 package com.barnesicle.user.service
 
-import com.barnesicle.user.dao.UserReactiveCassandraDao
+import com.barnesicle.user.dao.AccountReactiveCassandraDao
 import com.barnesicle.user.entity.Account
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -9,22 +9,21 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
-class UserService @Autowired constructor(val userDao: UserReactiveCassandraDao,
-                                         val passwordEncoder: PasswordEncoder
-) {
+class AccountService @Autowired constructor(val accountDao: AccountReactiveCassandraDao,
+                                            val passwordEncoder: PasswordEncoder) {
 
 
 
-    fun findUsers() : Flux<Account>? {
-        return userDao.findUsers()
+    fun findAccounts() : Flux<Account>? {
+        return accountDao.findUsers()
     }
 
-    fun findUserByUsername(username: String) : Mono<Account>? {
-        return userDao.findById(username)
+    fun findAccountByUsername(username: String) : Mono<Account>? {
+        return accountDao.findById(username)
     }
 
     fun insert(account: Account): Mono<Account>? {
-        val userWithEncryptedPassword = account.copy(account.username,
+        val accountWithEncryptedPassword = account.copy(account.username,
                 account.firstName,
                 account.lastName,
                 account.email,
@@ -33,7 +32,7 @@ class UserService @Autowired constructor(val userDao: UserReactiveCassandraDao,
                 account.created
                 )
 
-        return userDao.insert(userWithEncryptedPassword)
+        return accountDao.insert(accountWithEncryptedPassword)
     }
 
 }

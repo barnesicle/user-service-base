@@ -4,4 +4,4 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class ServiceFactory @Autowired constructor(val userService: UserService)
+class ServiceFactory @Autowired constructor(val accountService: AccountService)

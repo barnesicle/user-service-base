@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface UserReactiveCassandraDao extends ReactiveCassandraRepository<Account, String> {
+public interface AccountReactiveCassandraDao extends ReactiveCassandraRepository<Account, String> {
     @Query("SELECT * FROM users_by_username")
     Flux<Account> findUsers();
 

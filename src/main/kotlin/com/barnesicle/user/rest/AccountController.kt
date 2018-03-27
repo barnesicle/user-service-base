@@ -14,25 +14,25 @@ import java.util.*
 
 
 @RestController
-class UsersRestController @Autowired constructor(val serviceFactory: ServiceFactory) {
+class AccountsRestController @Autowired constructor(val serviceFactory: ServiceFactory) {
 
-    @GetMapping("/users")
-    fun getUsers() : Flux<Account>? {
-        return serviceFactory.userService.findUsers()
+    @GetMapping("/account")
+    fun getAccounts() : Flux<Account>? {
+        return serviceFactory.accountService.findAccounts()
     }
 
-    @GetMapping("/users/{email}")
-    fun getUserByEmail(@PathVariable(value = "email") email: String) : Mono<Account>? {
-        return serviceFactory.userService.findUserByUsername(email)
+    @GetMapping("/account/{username}")
+    fun getAccountByEmail(@PathVariable(value = "email") username: String) : Mono<Account>? {
+        return serviceFactory.accountService.findAccountByUsername(username)
     }
 
-    @PostMapping("/users/signup")
+    @PostMapping("/account/signup")
     fun insert(@Valid @RequestBody accountSignup: AccountSignup): ResponseEntity<*> {
 
         //logger.debug("POST")
         //logger.debug(accountSignup.toString())
 
-        val account = Account(accountSignup.email,
+        val account = Account(
                 accountSignup.firstName,
                 accountSignup.lastName,
                 accountSignup.email,
@@ -40,7 +40,7 @@ class UsersRestController @Autowired constructor(val serviceFactory: ServiceFact
                 setOf("USER"),
                 Date())
 
-        serviceFactory.userService.insert(account)
+        serviceFactory.accountService.insert(account)
 
         return ResponseEntity<Account>(account, HttpStatus.CREATED)
     }
